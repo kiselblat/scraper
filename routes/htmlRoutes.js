@@ -7,11 +7,9 @@ module.exports = (app) => {
       let viewData = {
         articles: dbArticle,
       };
+      console.log(viewData);
       res.render("index", viewData);
     })
   });
-
-
-  
 
 }
