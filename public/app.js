@@ -1,3 +1,8 @@
+$.ajax({
+  method: "GET",
+  url: "/scrape"
+}).then(data => console.log(data));
+
 // Whenever someone clicks a p tag
 $(document).on("click", "p", function() {
   // Empty the notes from the note section
