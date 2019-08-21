@@ -28,17 +28,23 @@ module.exports = (app) => {
           .children("a")
           .attr("href");
 
-        // Create a new Article using the `result` object built from scraping
-        db.Article.create(result)
-          .then(function(dbArticle) {
-            // View the added result in the console
-            console.log(dbArticle);
-          })
-          .catch(function(err) {
-            // If an error occurred, log it
-            console.log(err);
-          });
-      });
+        db.Article.find({link: result.link}).then(function (dbArticle) {
+          if (dbArticle.length) {
+            console.log("Link already exists");
+          } else {
+            // Create a new Article using the `result` object built from scraping
+            db.Article.create(result)
+            .then(function(dbArticle) {
+              // View the added result in the console
+              console.log(dbArticle);
+            })
+            .catch(function(err) {
+              // If an error occurred, log it
+              console.log(err);
+            });
+          }
+        });
+      })
 
       // Send a message to the client
       res.send("Scrape Complete");
