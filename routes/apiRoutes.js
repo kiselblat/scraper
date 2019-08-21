@@ -102,4 +102,19 @@ module.exports = (app) => {
       });
   });
 
+  app.delete("/api/articles/:id", function(req, res) {
+    db.Article.findOne({ _id: req.params.id }).then(function(dbArticle) {
+      db.Note.findOneAndDelete({ _id: dbArticle.note }).then(function(dbNote) {
+        return db.Article.findOneAndUpdate({ id: req.params.id }, { $set: { note: "" } });
+      })
+    }).then(function(dbArticle) {
+      // If we were able to successfully update an Article, send it back to the client
+      res.json(dbArticle);
+    })
+    .catch(function(err) {
+      // If an error occurred, send it to the client
+      res.json(err);
+    });
+  });
+
 }
